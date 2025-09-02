@@ -1,5 +1,5 @@
 import { styled } from '@stitches/react';
 
 export const Container = styled('div', {
-  height: '800px',
+  display: 'flex',
 });
