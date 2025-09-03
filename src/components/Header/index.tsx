@@ -1,28 +1,39 @@
 import Image from 'next/image';
-import { Container, ContainerSideBar } from './style';
+import { Container, ContainerSideBar, ContainerUser } from './style';
 import logoImg from '@/assets/logo-book-wise.svg';
-import { BinocularsIcon, ChartLineUpIcon, UserIcon } from '@phosphor-icons/react';
+import avatarPerfilImg from '@/assets/avatar-perfil.svg';
+import { BinocularsIcon, ChartLineUpIcon, SignInIcon, SignOutIcon, UserIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function Header() {
+  const isLogado = true;
+  const pathName = usePathname();
+
   return (
     <Container>
       <ContainerSideBar>
         <Image src={logoImg} alt="" />
 
         <nav className="menu">
-          <Link className="active" href="">
+          <Link href={'/'} className={pathName === '/' ? 'active' : ''}>
             <ChartLineUpIcon size={24} /> Início
           </Link>
-          <Link href="">
+          <Link href={'/explorar'} className={pathName === '/explorar' ? 'active' : ''}>
             <BinocularsIcon size={24} /> Explorar
           </Link>
-          <Link href="">
-            <UserIcon size={24} /> Perfil
-          </Link>
+          {isLogado && (
+            <Link href={'/perfil'} className={pathName === '/perfil' ? 'active' : ''}>
+              <UserIcon size={24} /> Perfil
+            </Link>
+          )}
         </nav>
 
-        <div className="user">Usuario (icone)</div>
+        <ContainerUser logado={isLogado}>
+          {isLogado && <Image src={avatarPerfilImg} alt="" />}
+          {isLogado ? <span>Usuário</span> : <span>Fazer Login</span>}
+          {isLogado ? <SignOutIcon size={20} /> : <SignInIcon size={20} />}
+        </ContainerUser>
       </ContainerSideBar>
     </Container>
   );

@@ -14,7 +14,7 @@ export const ContainerSideBar = styled('div', {
   background: 'linear-gradient(180deg,rgba(25, 34, 65, 1) 0%, rgba(18, 28, 35, 1) 100%)',
   borderRadius: '12px',
 
-  img: {
+  '>img': {
     marginBottom: '4rem',
   },
 
@@ -47,8 +47,26 @@ export const ContainerSideBar = styled('div', {
       color: '$white',
     },
   },
+});
 
-  '.user': {
-    height: '32px',
+export const ContainerUser = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.75rem',
+  height: 32,
+
+  variants: {
+    logado: {
+      true: {
+        svg: {
+          color: '#F75A68',
+        },
+      },
+      false: {
+        svg: {
+          color: '$green100',
+        },
+      },
+    },
   },
 });

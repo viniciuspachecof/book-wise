@@ -1,9 +1,9 @@
-import { Container } from './styles';
+import { InicioCardLivroRecente } from '@/components/InicioCardLivroRecente';
 
 export default function Home() {
   return (
-    <Container>
-      <p>Teste</p>
-    </Container>
+    <div>
+      <InicioCardLivroRecente />
+    </div>
   );
 }
