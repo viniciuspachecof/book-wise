@@ -34,7 +34,7 @@ export function InicioCardLivroRecente() {
           <p className="descricao-livro">
             Semper et sapien proin vitae nisi. Feugiat neque integer donec et aenean posuere amet ultrices. Cras
             fermentum id pulvinar varius leo a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed
-            vulputate massa velit nibh... ver mais
+            vulputate massa velit nibh
           </p>
         </div>
       </div>

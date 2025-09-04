@@ -42,6 +42,10 @@ export const Container = styled('div', {
       fontSize: '$sm',
       color: '$gray300',
       marginTop: '1.25rem',
+      overflow: 'hidden',
+      display: '-webkit-box',
+      '-webkit-line-clamp': 4 /* número de linhas */,
+      '-webkit-box-orient': 'vertical',
     },
   },
 });
