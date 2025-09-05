@@ -1,9 +1,18 @@
 import { styled } from '@stitches/react';
 
 export const Container = styled('div', {
+  '.titulo-postagem': {
+    color: '$gray300',
+    fontSize: '$sm',
+    marginBottom: '0.5rem',
+  },
+});
+
+export const ContainerLivro = styled('div', {
   backgroundColor: '$gray700',
   padding: '1.5rem',
   borderRadius: '8px',
+  marginBottom: '1.5rem',
 
   '.container-livro': {
     display: 'flex',

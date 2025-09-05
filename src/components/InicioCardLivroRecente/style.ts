@@ -4,6 +4,7 @@ export const Container = styled('div', {
   backgroundColor: '$gray700',
   padding: '1.5rem',
   borderRadius: '8px',
+  marginBottom: '0.75rem',
 
   '.container-avaliacao': {
     display: 'flex',

@@ -25,30 +25,15 @@ export const Container = styled('div', {
     gap: '4rem',
 
     '.container-primario': {
-      input: {
-        marginBottom: '2rem',
-        width: '100%',
-        padding: '0.875rem 1.25rem',
-        border: '1px solid',
-        borderRadius: '0.25rem',
-        borderColor: '$gray500',
-        backgroundColor: 'transparent',
-        color: '$gray200',
-        fontSize: '$sm',
-
-        '&::placeholder': {
-          color: '$gray400',
-        },
-
-        '&:focus': {
-          borderColor: '$green200',
-          outline: 'none',
-        },
-      },
-
       '.container-ultima-leitura': {
         marginBottom: '2.5rem',
       },
     },
+  },
+
+  '.titulo-container': {
+    color: '$gray100',
+    fontSize: '$sm',
+    marginBottom: '1rem',
   },
 });

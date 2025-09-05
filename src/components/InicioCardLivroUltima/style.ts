@@ -1,7 +1,7 @@
 import { styled } from '@stitches/react';
 
 export const Container = styled('div', {
-  backgroundColor: '$gray700',
+  backgroundColor: '$gray600',
   padding: '1.5rem',
   borderRadius: '8px',
 

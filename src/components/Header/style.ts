@@ -2,7 +2,7 @@ import { styled } from '@/styles';
 
 export const Container = styled('div', {
   height: '100vh',
-  padding: '1.25rem',
+  padding: '1.25rem 0 1.25rem 1.25rem',
 });
 
 export const ContainerSideBar = styled('div', {
