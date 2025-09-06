@@ -45,9 +45,67 @@ export const Container = styled('div', {
           outline: 'none',
         },
       },
+    },
 
-      '.container-ultima-leitura': {
-        marginBottom: '2.5rem',
+    '.container-secundario': {
+      '.container-perfil': {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        img: {
+          marginBottom: '1.25rem',
+        },
+
+        p: {
+          color: '$gray100',
+          fontSize: '$xl',
+          fontWeight: 'bold',
+        },
+
+        span: {
+          color: '$gray400',
+          fontSize: '$sm',
+        },
+      },
+
+      '.divisao::before': {
+        content: '',
+        display: 'block',
+        margin: '3rem auto',
+        width: '2rem',
+        height: '0.25rem',
+        background: 'linear-gradient(#7fd1cc, #9694f5)',
+        borderRadius: '100px',
+      },
+
+      '.container-info-principal': {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: '2.5rem',
+
+        '.container-info': {
+          display: 'flex',
+          gap: '1.25rem',
+          alignItems: 'center',
+
+          svg: {
+            color: '$green100',
+          },
+
+          p: {
+            color: '$gray200',
+            fontSize: '$md',
+            fontWeight: 'bold',
+          },
+
+          span: {
+            color: '$gray300',
+            fontSize: '$sm',
+          },
+        },
       },
     },
   },

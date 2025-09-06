@@ -1,22 +1,28 @@
 import Image from 'next/image';
-import avatarUsuarioImg from '@/assets/avatar-usuario-livro-avaliacao.svg';
+import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
 import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
+import Link from 'next/link';
 
 export function InicioCardLivroRecente() {
   return (
     <Container>
       <div className="container-avaliacao">
-        <Image src={avatarUsuarioImg} alt="" />
+        <Link href={'/perfil'} className="avatar">
+          <Image src={avatarUsuarioImg} alt="" />
+        </Link>
         <div style={{ flex: 1 }}>
-          <p className="nome-usuario">Vinicius</p>
+          <Link href={'/perfil'} className="nome-usuario">
+            Vinicius
+          </Link>{' '}
+          <br />
           <span className="data-usuario">Hoje</span>
         </div>
         <Rating
           onClick={() => console.log('alterou')}
           initialValue={1}
-          readonly={false}
+          readonly={true}
           fillColor="#a78bfa"
           emptyColor="transparent"
           SVGstrokeColor="#a78bfa"

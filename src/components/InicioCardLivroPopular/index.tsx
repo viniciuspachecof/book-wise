@@ -15,7 +15,7 @@ export function InicioCardLivroPopular() {
           <Rating
             onClick={() => console.log('alterou')}
             initialValue={1}
-            readonly={false}
+            readonly={true}
             fillColor="#a78bfa"
             emptyColor="transparent"
             SVGstrokeColor="#a78bfa"

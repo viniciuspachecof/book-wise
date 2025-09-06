@@ -4,6 +4,14 @@ export const Container = styled('div', {
   backgroundColor: '$gray600',
   padding: '1.5rem',
   borderRadius: '8px',
+  cursor: 'pointer',
+  border: '2px solid transparent',
+
+  transition: 'border 0.1s',
+
+  '&:hover': {
+    border: '2px solid $gray500',
+  },
 
   '.container-livro': {
     display: 'flex',

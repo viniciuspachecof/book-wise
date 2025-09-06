@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Container, ContainerSideBar, ContainerUser } from './style';
 import logoImg from '@/assets/logo-book-wise.svg';
-import avatarPerfilImg from '@/assets/avatar-perfil.svg';
+import avatarUsuarioImg from '@/assets/avatar-usuario.svg';
 import { BinocularsIcon, ChartLineUpIcon, SignInIcon, SignOutIcon, UserIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,9 +30,17 @@ export function Header() {
         </nav>
 
         <ContainerUser logado={isLogado}>
-          {isLogado && <Image src={avatarPerfilImg} alt="" />}
+          {isLogado && <Image src={avatarUsuarioImg} alt="" />}
           {isLogado ? <span>Usuário</span> : <span>Fazer Login</span>}
-          {isLogado ? <SignOutIcon size={20} /> : <SignInIcon size={20} />}
+          {isLogado ? (
+            <button>
+              <SignOutIcon size={20} />
+            </button>
+          ) : (
+            <button>
+              <SignInIcon size={20} />
+            </button>
+          )}
         </ContainerUser>
       </ContainerSideBar>
     </Container>

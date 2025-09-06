@@ -55,6 +55,19 @@ export const ContainerUser = styled('div', {
   gap: '0.75rem',
   height: 32,
 
+  button: {
+    all: 'unset',
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+
+    transition: 'opacity 0.1s',
+
+    '&:hover': {
+      opacity: '0.8',
+    },
+  },
+
   variants: {
     logado: {
       true: {

@@ -5,6 +5,14 @@ export const Container = styled('div', {
   padding: '1.5rem',
   borderRadius: '8px',
   marginBottom: '0.75rem',
+  cursor: 'pointer',
+  border: '2px solid transparent',
+
+  transition: 'border 0.1s',
+
+  '&:hover': {
+    border: '2px solid $gray600',
+  },
 
   '.container-livro': {
     display: 'flex',

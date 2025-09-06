@@ -1,9 +1,8 @@
 import { Container } from './style';
-import { InicioCardLivroRecente } from '@/components/InicioCardLivroRecente';
-import { InicioCardLivroPopular } from '@/components/InicioCardLivroPopular';
-import { InicioCardLivroUltima } from '@/components/InicioCardLivroUltima';
-import { UserIcon } from '@phosphor-icons/react';
+import { BookmarkSimpleIcon, BookOpenIcon, BooksIcon, UserIcon, UserListIcon } from '@phosphor-icons/react';
 import { PerfilCardLivro } from '@/components/PerfilCardLivro';
+import Image from 'next/image';
+import imgAvatarUsuario from '@/assets/avatar-usuario-perfil.svg';
 
 export default function Perfil() {
   return (
@@ -24,8 +23,47 @@ export default function Perfil() {
         </div>
 
         <div className="container-secundario">
-          <p className="titulo-container">Livros populares</p>
-          <InicioCardLivroPopular />
+          <div className="container-perfil">
+            <Image src={imgAvatarUsuario} alt="" />
+            <p>Fulano de tal</p>
+            <span>membro desde 2025</span>
+          </div>
+
+          <div className="divisao"></div>
+
+          <div className="container-info-principal">
+            <div className="container-info">
+              <BookOpenIcon size={32} />
+              <div>
+                <p>3853</p>
+                <span>Páginas lidas</span>
+              </div>
+            </div>
+
+            <div className="container-info">
+              <BooksIcon size={32} />
+              <div>
+                <p>10</p>
+                <span>Livros avaliados</span>
+              </div>
+            </div>
+
+            <div className="container-info">
+              <UserListIcon size={32} />
+              <div>
+                <p>8</p>
+                <span>Autores lidos</span>
+              </div>
+            </div>
+
+            <div className="container-info">
+              <BookmarkSimpleIcon size={32} />
+              <div>
+                <p>Computação</p>
+                <span>Categoria mais lida</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Container>
