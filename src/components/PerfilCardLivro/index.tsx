@@ -11,8 +11,10 @@ export function PerfilCardLivro() {
         <div className="container-livro">
           <Image src={imgLivroRecente} alt="" />
           <div className="container-livro-info">
-            <p className="titulo-livro">A revolução dos bichos</p>
-            <span className="autor-livro">George Orwell</span>
+            <div>
+              <p className="titulo-livro">A revolução dos bichos</p>
+              <span className="autor-livro">George Orwell</span>
+            </div>
 
             <Rating
               onClick={() => console.log('alterou')}

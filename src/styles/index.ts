@@ -23,11 +23,11 @@ export const { config, styled, css, globalCss, keyframes, getCssText, theme, cre
     },
 
     fontSizes: {
-      sm: '0.875rem',
-      md: '1rem',
-      lg: '1.125rem',
-      xl: '1.25rem',
-      'xl-2': '1.5rem',
+      sm: '0.875rem', // 14px
+      md: '1rem', // 16px
+      lg: '1.125rem', // 18px
+      xl: '1.25rem', // 20px
+      'xl-2': '1.5rem', // 24px
     },
   },
 });

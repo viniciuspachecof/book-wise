@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
-import imgLivroPopular from '@/assets/inicio-livro-popular.svg';
+import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 
-export function InicioCardLivroPopular() {
+export function ExplorarCardLivro() {
   return (
     <Container>
       <div className="container-livro">
-        <Image src={imgLivroPopular} alt="" />
+        <Image src={imgLivroRecente} alt="" />
         <div className="container-livro-info">
           <div>
             <p className="titulo-livro">A revolução dos bichos</p>

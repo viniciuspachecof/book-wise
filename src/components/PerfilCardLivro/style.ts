@@ -30,6 +30,8 @@ export const ContainerLivro = styled('div', {
     '.container-livro-info': {
       display: 'flex',
       flexDirection: 'Column',
+      minHeight: '9.5rem',
+      justifyContent: 'space-between',
 
       '.titulo-livro': {
         fontSize: '$md',
@@ -40,7 +42,6 @@ export const ContainerLivro = styled('div', {
       '.autor-livro': {
         fontSize: '$sm',
         color: '$gray400',
-        marginBottom: '5.4375rem',
       },
     },
   },
