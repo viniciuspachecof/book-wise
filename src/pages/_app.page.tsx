@@ -6,9 +6,12 @@ import type { AppProps } from 'next/app';
 globalStyles();
 
 export default function App({ Component, pageProps }: AppProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const showHeader = (Component as any).showHeader !== false;
+
   return (
     <Container>
-      <Header />
+      {showHeader && <Header />}
       <Component {...pageProps} />
     </Container>
   );
