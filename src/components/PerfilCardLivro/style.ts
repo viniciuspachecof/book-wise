@@ -50,5 +50,6 @@ export const ContainerLivro = styled('div', {
     fontSize: '$sm',
     color: '$gray300',
     marginTop: '1.5rem',
+    lineHeight: '160%',
   },
 });

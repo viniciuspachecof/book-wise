@@ -4,7 +4,6 @@ export const Container = styled('div', {
   backgroundColor: '$gray700',
   padding: '1.5rem',
   borderRadius: '8px',
-  marginBottom: '0.75rem',
   cursor: 'pointer',
   border: '2px solid transparent',
 
@@ -62,6 +61,7 @@ export const Container = styled('div', {
       fontSize: '$sm',
       color: '$gray300',
       marginTop: '1.25rem',
+      lineHeight: '160%',
       overflow: 'hidden',
       display: '-webkit-box',
       '-webkit-line-clamp': 4 /* número de linhas */,

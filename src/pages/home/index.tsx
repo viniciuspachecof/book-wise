@@ -16,21 +16,25 @@ export default function Home() {
       <div className="container-principal">
         <div className="container-primario">
           {isLogado && (
-            <div className="container-ultima-leitura">
+            <>
               <p className="titulo-container">Sua última leitura</p>
-              <InicioCardLivroUltima />
-            </div>
+              <div className="container-ultima-leitura">
+                <InicioCardLivroUltima />
+              </div>
+            </>
           )}
 
+          <p className="titulo-container">Avaliações mais recentes</p>
           <div className="container-avaliacoes-recentes">
-            <p className="titulo-container">Avaliações mais recentes</p>
             <InicioCardLivroRecente />
           </div>
         </div>
 
         <div className="container-secundario">
           <p className="titulo-container">Livros populares</p>
-          <InicioCardLivroPopular />
+          <div className="container-popular">
+            <InicioCardLivroPopular />
+          </div>
         </div>
       </div>
     </Container>

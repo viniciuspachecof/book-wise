@@ -44,6 +44,7 @@ export const Container = styled('div', {
       fontSize: '$sm',
       color: '$gray300',
       marginTop: '1.25rem',
+      lineHeight: '160%',
       overflow: 'hidden',
       display: '-webkit-box',
       '-webkit-line-clamp': 2 /* número de linhas */,

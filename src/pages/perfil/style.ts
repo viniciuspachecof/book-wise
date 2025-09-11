@@ -82,9 +82,10 @@ export const Container = styled('div', {
 
       '.container-info-principal': {
         display: 'flex',
-        alignItems: 'center',
         flexDirection: 'column',
         gap: '2.5rem',
+        maxWidth: '19.25rem',
+        margin: 'auto',
 
         '.container-info': {
           display: 'flex',

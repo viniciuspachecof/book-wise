@@ -1,7 +1,7 @@
 import { styled } from '@stitches/react';
 
 export const Container = styled('div', {
-  margin: '4.5rem 6rem 0',
+  margin: '4.5rem 6rem',
 
   '.titulo-pagina': {
     display: 'flex',
@@ -28,6 +28,20 @@ export const Container = styled('div', {
       '.container-ultima-leitura': {
         marginBottom: '2.5rem',
       },
+
+      '.container-avaliacoes-recentes': {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.75rem',
+      },
+    },
+  },
+
+  '.container-secundario': {
+    '.container-popular': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.75rem',
     },
   },
 
