@@ -14,12 +14,11 @@ export function CardAvaliacaoUsuario() {
         <div style={{ flex: 1 }}>
           <Link href={'/perfil'} className="nome-usuario">
             Vinicius
-          </Link>{' '}
+          </Link>
           <br />
           <span className="data-usuario">Hoje</span>
         </div>
         <Rating
-          onClick={() => console.log('alterou')}
           initialValue={1}
           readonly={true}
           fillColor="#a78bfa"

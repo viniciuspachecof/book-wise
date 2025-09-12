@@ -17,7 +17,6 @@ export function PerfilCardLivro() {
             </div>
 
             <Rating
-              onClick={() => console.log('alterou')}
               initialValue={1}
               readonly={true}
               fillColor="#a78bfa"

@@ -5,6 +5,23 @@ export const Overlay = styled('div', {
   inset: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
   zIndex: 999,
+  transition: 'transform 0.3s ease-in-out',
+
+  variants: {
+    open: {
+      true: {
+        transform: 'translateX(0%)',
+        boxShadow: '-5px 0px 18px rgba(0, 0, 0, 0.75)',
+      },
+      false: {
+        transform: 'translateX(100%)',
+      },
+    },
+  },
+
+  defaultVariants: {
+    open: false,
+  },
 });
 
 export const Container = styled('div', {
@@ -14,10 +31,26 @@ export const Container = styled('div', {
   position: 'fixed',
   top: 0,
   right: 0,
-  // transition: 'transform 0.3s ease-in-out',
+  transition: 'transform 0.3s ease-in-out',
   zIndex: 1000,
   padding: '3rem',
   overflow: 'auto',
+
+  variants: {
+    open: {
+      true: {
+        transform: 'translateX(0%)',
+        boxShadow: '-5px 0px 18px rgba(0, 0, 0, 0.75)',
+      },
+      false: {
+        transform: 'translateX(100%)',
+      },
+    },
+  },
+
+  defaultVariants: {
+    open: false,
+  },
 
   'div.close': {
     display: 'flex',
@@ -135,5 +168,72 @@ export const ContainerAvaliacaoUsuario = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     gap: '0.75rem',
+
+    '.container-avaliacao-usuario': {
+      backgroundColor: '$gray700',
+      padding: '1.5rem',
+      borderRadius: '8px',
+
+      'div:first-child': {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        marginBottom: '1.5rem',
+
+        span: {
+          marginLeft: 'auto',
+        },
+      },
+
+      'div.container-textarea': {
+        display: 'flex',
+        marginBottom: '0.75rem',
+
+        textarea: {
+          all: 'unset',
+
+          height: '8.5rem',
+          backgroundColor: '$gray800',
+          border: '1px solid',
+          borderRadius: '0.25rem',
+          borderColor: '$gray500',
+          padding: '0.875rem 1.25rem',
+          flex: 1,
+          color: '$gray200',
+          fontSize: '$sm',
+
+          '&::placeholder': {
+            color: '$gray400',
+          },
+
+          '&:focus': {
+            borderColor: '$green200',
+            outline: 'none',
+          },
+        },
+      },
+
+      'div:last-child': {
+        display: 'flex',
+        gap: '0.5rem',
+        justifyContent: 'flex-end',
+
+        button: {
+          all: 'unset',
+
+          cursor: 'pointer',
+          padding: '0.5rem',
+          backgroundColor: '$gray600',
+          display: 'flex',
+          borderRadius: '0.25rem',
+
+          transition: 'background-color 0.1s',
+
+          '&:hover': {
+            backgroundColor: '$gray500',
+          },
+        },
+      },
+    },
   },
 });

@@ -4,10 +4,14 @@ import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
 import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { BookWiseContext } from '@/contexts/BookWiseContext';
 
 export function InicioCardLivroRecente() {
+  const { onDisplayDetails } = useContext(BookWiseContext);
+
   return (
-    <Container>
+    <Container onClick={() => onDisplayDetails(true)}>
       <div className="container-avaliacao">
         <Link href={'/perfil'} className="avatar">
           <Image src={avatarUsuarioImg} alt="" />
@@ -15,12 +19,11 @@ export function InicioCardLivroRecente() {
         <div style={{ flex: 1 }}>
           <Link href={'/perfil'} className="nome-usuario">
             Vinicius
-          </Link>{' '}
+          </Link>
           <br />
           <span className="data-usuario">Hoje</span>
         </div>
         <Rating
-          onClick={() => console.log('alterou')}
           initialValue={1}
           readonly={true}
           fillColor="#a78bfa"

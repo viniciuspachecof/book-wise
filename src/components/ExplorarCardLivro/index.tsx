@@ -2,10 +2,14 @@ import Image from 'next/image';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
 import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
+import { useContext } from 'react';
+import { BookWiseContext } from '@/contexts/BookWiseContext';
 
 export function ExplorarCardLivro() {
+  const { onDisplayDetails } = useContext(BookWiseContext);
+
   return (
-    <Container>
+    <Container onClick={() => onDisplayDetails(true)}>
       <div className="container-livro">
         <Image src={imgLivroRecente} alt="" />
         <div className="container-livro-info">
@@ -15,7 +19,6 @@ export function ExplorarCardLivro() {
           </div>
 
           <Rating
-            onClick={() => console.log('alterou')}
             initialValue={1}
             readonly={true}
             fillColor="#a78bfa"

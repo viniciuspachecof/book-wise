@@ -1,5 +1,6 @@
 import { DetalheLivro } from '@/components/DetalheLivro';
 import { Header } from '@/components/Header';
+import { BookWiseContextProvider } from '@/contexts/BookWiseContext';
 import { globalStyles } from '@/styles/global';
 import { Container } from '@/styles/page';
 import type { AppProps } from 'next/app';
@@ -11,12 +12,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const showHeader = (Component as any).showHeader !== false;
 
   return (
-    <Container>
-      {showHeader && <Header />}
+    <BookWiseContextProvider>
+      <Container>
+        {showHeader && <Header />}
 
-      <Component {...pageProps} />
+        <Component {...pageProps} />
 
-      <DetalheLivro />
-    </Container>
+        <DetalheLivro />
+      </Container>
+    </BookWiseContextProvider>
   );
 }

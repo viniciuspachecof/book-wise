@@ -2,16 +2,30 @@ import Image from 'next/image';
 import { Container, ContainerAvaliacaoUsuario, ContainerLivro, Overlay } from './style';
 import imgDetalheLivro from '@/assets/detalhe-livro.svg';
 import { Rating } from 'react-simple-star-rating';
-import { BookmarkSimpleIcon, BookOpenIcon, XIcon } from '@phosphor-icons/react';
+import { BookmarkSimpleIcon, BookOpenIcon, CheckIcon, XIcon } from '@phosphor-icons/react';
 import { CardAvaliacaoUsuario } from '../CardAvaliacaoUsuario';
+import { useContext, useEffect, useState } from 'react';
+import { BookWiseContext } from '@/contexts/BookWiseContext';
+import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
 
 export function DetalheLivro() {
+  const { displayDetails, onDisplayDetails } = useContext(BookWiseContext);
+  const [displayAvaliation, setDisplayAvaliaton] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Exibir apenas após montagem no cliente
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <>
-      <Overlay />
-      <Container>
+      <Overlay open={displayDetails} />
+      <Container open={displayDetails}>
         <div className="close">
-          <button>
+          <button onClick={() => onDisplayDetails(false)}>
             <XIcon size={24} />
           </button>
         </div>
@@ -27,7 +41,6 @@ export function DetalheLivro() {
 
               <div>
                 <Rating
-                  onClick={() => console.log('alterou')}
                   initialValue={1}
                   readonly={true}
                   fillColor="#a78bfa"
@@ -63,9 +76,40 @@ export function DetalheLivro() {
         <ContainerAvaliacaoUsuario>
           <div className="avaliar">
             <span>Avaliações</span>
-            <button>Avaliar</button>
+            {!displayAvaliation && <button onClick={() => setDisplayAvaliaton(true)}>Avaliar</button>}
           </div>
+
           <div className="container-avaliacoes">
+            {displayAvaliation && (
+              <div className="container-avaliacao-usuario">
+                <div>
+                  <Image src={avatarUsuarioImg} alt="" />
+                  <p className="nome-usuario">Vinicius</p>
+                  <Rating
+                    initialValue={1}
+                    readonly={false}
+                    fillColor="#a78bfa"
+                    emptyColor="transparent"
+                    SVGstrokeColor="#a78bfa"
+                    SVGstorkeWidth={2}
+                    size={22}
+                  />
+                </div>
+                <div className="container-textarea">
+                  <textarea name="avaliacao" id="avaliacao" placeholder="Escreva sua avaliação"></textarea>
+                </div>
+
+                <div>
+                  <button onClick={() => setDisplayAvaliaton(false)}>
+                    <XIcon size={24} color="#8381D9" />
+                  </button>
+                  <button>
+                    <CheckIcon size={24} color="#50B2C0" />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <CardAvaliacaoUsuario />
           </div>
         </ContainerAvaliacaoUsuario>
