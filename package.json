@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "@prisma/client": "^6.16.1",
     "@stitches/react": "^1.2.8",
+    "axios": "^1.12.2",
     "next": "15.5.2",
+    "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-simple-star-rating": "^5.1.7"
@@ -23,6 +26,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "prisma": "^6.16.1",
     "typescript": "^5"
   }
 }

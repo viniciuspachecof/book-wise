@@ -5,6 +5,7 @@ import iconeGoogle from '@/assets/icone-google.svg';
 import iconeGithub from '@/assets/icone-github.svg';
 import iconeRocket from '@/assets/icone-rocket.svg';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
 function Login() {
   const router = useRouter();
@@ -22,7 +23,7 @@ function Login() {
           <span>Faça seu login ou acesse como visistante.</span>
 
           <div className="container-links">
-            <button className="link">
+            <button className="link" onClick={() => signIn('google')}>
               <Image src={iconeGoogle} alt="" /> Entrar com Google
             </button>
 
