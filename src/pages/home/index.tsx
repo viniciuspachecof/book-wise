@@ -3,9 +3,11 @@ import { InicioCardLivroRecente } from '@/components/InicioCardLivroRecente';
 import { InicioCardLivroPopular } from '@/components/InicioCardLivroPopular';
 import { InicioCardLivroUltima } from '@/components/InicioCardLivroUltima';
 import { ChartLineUpIcon } from '@phosphor-icons/react';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
-  const isLogado = true;
+  const session = useSession();
+  const isSignedIn = session.status === 'authenticated';
 
   return (
     <Container>
@@ -15,7 +17,7 @@ export default function Home() {
 
       <div className="container-principal">
         <div className="container-primario">
-          {isLogado && (
+          {isSignedIn && (
             <>
               <p className="titulo-container">Sua última leitura</p>
               <div className="container-ultima-leitura">

@@ -5,10 +5,20 @@ import iconeGoogle from '@/assets/icone-google.svg';
 import iconeGithub from '@/assets/icone-github.svg';
 import iconeRocket from '@/assets/icone-rocket.svg';
 import { useRouter } from 'next/router';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 function Login() {
   const router = useRouter();
+  const session = useSession();
+  const isSignedIn = session.status === 'authenticated';
+
+  async function handleAcessarVisitante() {
+    if (isSignedIn) {
+      await signOut();
+    } else {
+      router.push('/');
+    }
+  }
 
   return (
     <Container>
@@ -27,16 +37,11 @@ function Login() {
               <Image src={iconeGoogle} alt="" /> Entrar com Google
             </button>
 
-            <button className="link">
+            <button className="link" onClick={() => signIn('github')}>
               <Image src={iconeGithub} alt="" /> Entrar com GitHub
             </button>
 
-            <button
-              className="link"
-              onClick={() => {
-                router.push('/');
-              }}
-            >
+            <button className="link" onClick={handleAcessarVisitante}>
               <Image src={iconeRocket} alt="" /> Acessar como visitante
             </button>
           </div>
