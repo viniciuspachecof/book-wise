@@ -55,6 +55,21 @@ export const ContainerUser = styled('div', {
   gap: '0.75rem',
   height: 32,
 
+  img: {
+    borderRadius: '100%',
+  },
+
+  '.nome-usuario': {
+    color: '$gray200',
+    fontSize: '$sm',
+  },
+
+  '.nome-login': {
+    color: '$gray200',
+    fontSize: '$md',
+    fontWeight: 'bold',
+  },
+
   button: {
     all: 'unset',
     display: 'flex',

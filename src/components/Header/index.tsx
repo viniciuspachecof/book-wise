@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Container, ContainerSideBar, ContainerUser } from './style';
 import logoImg from '@/assets/logo-book-wise.svg';
-import avatarUsuarioImg from '@/assets/avatar-usuario.svg';
+import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 import { BinocularsIcon, ChartLineUpIcon, SignInIcon, SignOutIcon, UserIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -13,6 +13,8 @@ export function Header() {
   const isSignedIn = session.status === 'authenticated';
   const pathName = usePathname();
   const router = useRouter();
+
+  const primeiroNome = session.data?.user.name.split(' ')[0];
 
   return (
     <Container>
@@ -34,8 +36,14 @@ export function Header() {
         </nav>
 
         <ContainerUser logado={isSignedIn}>
-          {isSignedIn && <Image src={avatarUsuarioImg} alt="" />}
-          {isSignedIn ? <span>Usuário</span> : <span>Fazer Login</span>}
+          {isSignedIn && (
+            <Image width={32} height={32} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
+          )}
+          {isSignedIn ? (
+            <span className="nome-usuario">{primeiroNome}</span>
+          ) : (
+            <span className="nome-login">Fazer Login</span>
+          )}
           {isSignedIn ? (
             <button onClick={() => signOut()}>
               <SignOutIcon size={20} />
