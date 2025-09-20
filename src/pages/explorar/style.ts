@@ -52,30 +52,49 @@ export const Container = styled('div', {
     gap: '0.75rem',
     justifyContent: 'flex-start',
     marginBottom: '3rem',
-
-    button: {
-      all: 'unset',
-      cursor: 'pointer',
-      backgroundColor: 'transparent',
-      border: '1px solid $purple100',
-      borderRadius: '100px',
-      color: '$purple100',
-      fontSize: '$md',
-      padding: '0.25rem 1rem',
-
-      transition: 'background-color,color 0.1s',
-
-      '&:hover': {
-        backgroundColor: '$purple200',
-        border: '1px solid $purple200',
-        color: '$white',
-      },
-    },
   },
 
   '.container-livros': {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '1.25rem',
+  },
+});
+
+export const Button = styled('button', {
+  all: 'unset',
+  cursor: 'pointer',
+  backgroundColor: 'transparent',
+  border: '1px solid $purple100',
+  borderRadius: '100px',
+  color: '$purple100',
+  fontSize: '$md',
+  padding: '0.25rem 1rem',
+
+  transition: 'background-color,color 0.1s',
+
+  '&:hover': {
+    backgroundColor: '$purple200',
+    border: '1px solid $purple200',
+    color: '$white',
+  },
+
+  variants: {
+    active: {
+      true: {
+        backgroundColor: '$purple200',
+        border: '1px solid $purple200',
+        color: '$white',
+      },
+      false: {
+        backgroundColor: 'transparent',
+        border: '1px solid $purple100',
+        color: '$purple100',
+      },
+    },
+  },
+
+  defaultVariants: {
+    active: false,
   },
 });

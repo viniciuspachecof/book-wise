@@ -1,21 +1,21 @@
 import Image from 'next/image';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
-import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 import { useContext } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
+import { IBook } from '@/interface/IBook';
 
-export function ExplorarCardLivro() {
+export function ExplorarCardLivro({ name, author, cover_url }: IBook) {
   const { onDisplayDetails } = useContext(BookWiseContext);
 
   return (
     <Container onClick={() => onDisplayDetails(true)}>
       <div className="container-livro">
-        <Image src={imgLivroRecente} alt="" />
+        <Image src={cover_url} width={108} height={158} alt="" />
         <div className="container-livro-info">
           <div>
-            <p className="titulo-livro">A revolução dos bichos</p>
-            <span className="autor-livro">George Orwell</span>
+            <p className="titulo-livro">{name}</p>
+            <span className="autor-livro">{author}</span>
           </div>
 
           <Rating

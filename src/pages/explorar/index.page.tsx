@@ -1,8 +1,33 @@
 import { ExplorarCardLivro } from '@/components/ExplorarCardLivro';
-import { Container } from './style';
+import { Button, Container } from './style';
 import { BinocularsIcon } from '@phosphor-icons/react';
+import { GetStaticProps } from 'next';
+import { prisma } from '@/lib/prisma';
+import { IBook } from '@/interface/IBook';
+import { ICategory } from '@/interface/ICategory';
+import { useState } from 'react';
 
-export default function Explorar() {
+interface ExplorarProps {
+  books: IBook[];
+  categories: ICategory[];
+}
+
+export default function Explorar({ books, categories }: ExplorarProps) {
+  const [listBooks, setListBooks] = useState<IBook[]>(books);
+  const [categoryActive, setCategoryActive] = useState<string | null>('');
+
+  function handlerCategory(id: string | null) {
+    setCategoryActive(id);
+
+    if (!id) {
+      setListBooks(books);
+    } else {
+      const filterListBooks = books.filter((book) => book.categories.find((category) => category.id === id));
+
+      setListBooks(filterListBooks);
+    }
+  }
+
   return (
     <Container>
       <div className="container-busca">
@@ -13,22 +38,60 @@ export default function Explorar() {
       </div>
 
       <div className="container-categorias">
-        <button>Tudo</button>
-        <button>Computação</button>
-        <button>Educação</button>
-        <button>Fantasia</button>
-        <button>Ficção científica</button>
-        <button>Horror</button>
-        <button>HQs</button>
-        <button>Suspense</button>
+        <Button onClick={() => handlerCategory(null)} active={!categoryActive}>
+          Tudo
+        </Button>
+        {categories.map((category) => (
+          <Button
+            key={category.id}
+            onClick={() => handlerCategory(category.id)}
+            active={categoryActive === category.id}
+          >
+            {category.name}
+          </Button>
+        ))}
       </div>
 
       <div className="container-livros">
-        <ExplorarCardLivro />
-        <ExplorarCardLivro />
-        <ExplorarCardLivro />
-        <ExplorarCardLivro />
+        {listBooks.map((book) => (
+          <ExplorarCardLivro key={book.id} {...book} />
+        ))}
       </div>
     </Container>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const books = await prisma.book.findMany({
+    select: {
+      id: true,
+      name: true,
+      author: true,
+      cover_url: true,
+      categories: {
+        select: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const categories = await prisma.category.findMany();
+
+  const listBooksFormat = books.map((book) => ({
+    ...book,
+    categories: book.categories.map((c) => c.category),
+  }));
+
+  return {
+    props: {
+      books: listBooksFormat,
+      categories: categories,
+    },
+  };
+};
