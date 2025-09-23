@@ -56,6 +56,7 @@ export const Container = styled('div', {
 
         img: {
           marginBottom: '1.25rem',
+          borderRadius: '100%',
         },
 
         p: {

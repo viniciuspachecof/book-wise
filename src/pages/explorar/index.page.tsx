@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 import { prisma } from '@/lib/prisma';
 import { IBook } from '@/interface/IBook';
 import { ICategory } from '@/interface/ICategory';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ExplorarProps {
   books: IBook[];
@@ -15,6 +15,35 @@ interface ExplorarProps {
 export default function Explorar({ books, categories }: ExplorarProps) {
   const [listBooks, setListBooks] = useState<IBook[]>(books);
   const [categoryActive, setCategoryActive] = useState<string | null>('');
+
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    buscarPost(debouncedSearch);
+  }, [debouncedSearch]);
+
+  function buscarPost(query: string) {
+    if (!query) {
+      setListBooks(books);
+    } else {
+      const filterListBooks = books.filter(
+        (book) => book.name.toLowerCase().includes(query) || book.author.toLowerCase().includes(query)
+      );
+
+      setListBooks(filterListBooks);
+    }
+  }
 
   function handlerCategory(id: string | null) {
     setCategoryActive(id);
@@ -34,7 +63,12 @@ export default function Explorar({ books, categories }: ExplorarProps) {
         <div className="titulo-pagina">
           <BinocularsIcon size={32} /> <h1>Explorar</h1>
         </div>
-        <input name="buscar-livro" type="text" placeholder="Buscar livro ou autor" />
+        <input
+          name="buscar-livro"
+          type="text"
+          placeholder="Buscar livro ou autor"
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
 
       <div className="container-categorias">

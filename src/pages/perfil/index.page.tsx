@@ -2,9 +2,15 @@ import { Container } from './style';
 import { BookmarkSimpleIcon, BookOpenIcon, BooksIcon, UserIcon, UserListIcon } from '@phosphor-icons/react';
 import { PerfilCardLivro } from '@/components/PerfilCardLivro';
 import Image from 'next/image';
-import imgAvatarUsuario from '@/assets/avatar-usuario-perfil.svg';
+import { useSession } from 'next-auth/react';
+import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 
 export default function Perfil() {
+  const session = useSession();
+
+  // const data = (session.data?.user as any).created_at;
+  console.log(session);
+
   return (
     <Container>
       <div className="titulo-pagina">
@@ -24,8 +30,8 @@ export default function Perfil() {
 
         <div className="container-secundario">
           <div className="container-perfil">
-            <Image src={imgAvatarUsuario} alt="" />
-            <p>Fulano de tal</p>
+            <Image width={72} height={72} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
+            <p>{session.data?.user.name}</p>
             <span>membro desde 2025</span>
           </div>
 
