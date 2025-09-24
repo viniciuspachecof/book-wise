@@ -1,3 +1,5 @@
+import '../lib/dayjs';
+
 import { DetalheLivro } from '@/components/DetalheLivro';
 import { Header } from '@/components/Header';
 import { BookWiseContextProvider } from '@/contexts/BookWiseContext';

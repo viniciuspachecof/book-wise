@@ -10,6 +10,7 @@ import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
 
 export function DetalheLivro() {
   const { displayDetails, onDisplayDetails } = useContext(BookWiseContext);
+  const { bookSelected } = useContext(BookWiseContext);
   const [displayAvaliation, setDisplayAvaliaton] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -25,18 +26,18 @@ export function DetalheLivro() {
       <Overlay open={displayDetails} />
       <Container open={displayDetails}>
         <div className="close">
-          <button onClick={() => onDisplayDetails(false)}>
+          <button onClick={() => onDisplayDetails(false, '')}>
             <XIcon size={24} />
           </button>
         </div>
 
         <ContainerLivro>
           <div className="container-livro">
-            <Image src={imgDetalheLivro} alt="" />
+            <Image width={172} height={242} src={bookSelected?.cover_url ?? ''} alt="" />
             <div className="container-livro-info">
               <div>
-                <p className="titulo-livro">A revolução dos bichos</p>
-                <span className="autor-livro">George Orwell</span>
+                <p className="titulo-livro">{bookSelected?.name}</p>
+                <span className="autor-livro">{bookSelected?.author}</span>
               </div>
 
               <div>
@@ -67,7 +68,7 @@ export function DetalheLivro() {
               <BookOpenIcon size={24} />
               <div>
                 <span>Páginas</span>
-                <p>160</p>
+                <p>{bookSelected?.total_pages}</p>
               </div>
             </div>
           </div>

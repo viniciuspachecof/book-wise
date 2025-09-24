@@ -1,8 +1,11 @@
+import { IBook } from '@/interface/IBook';
+import { api } from '@/lib/axios';
 import { createContext, ReactNode, useState } from 'react';
 
 interface BookWiseContextType {
   displayDetails: boolean;
-  onDisplayDetails: (value: boolean) => void;
+  onDisplayDetails: (value: boolean, id: string) => void;
+  bookSelected?: IBook;
 }
 
 export const BookWiseContext = createContext({} as BookWiseContextType);
@@ -13,10 +16,21 @@ interface BookWiseProviderProps {
 
 export function BookWiseContextProvider({ children }: BookWiseProviderProps) {
   const [displayDetails, setDisplayDetails] = useState(false);
+  const [bookSelected, setBookSelected] = useState<IBook>();
 
-  function onDisplayDetails(value: boolean) {
+  async function onDisplayDetails(value: boolean, id: string) {
+    if (value) {
+      const response = await api.get(`/book/${id}`);
+
+      setBookSelected(response.data);
+    }
+
     setDisplayDetails(value);
   }
 
-  return <BookWiseContext.Provider value={{ displayDetails, onDisplayDetails }}>{children}</BookWiseContext.Provider>;
+  return (
+    <BookWiseContext.Provider value={{ displayDetails, onDisplayDetails, bookSelected }}>
+      {children}
+    </BookWiseContext.Provider>
+  );
 }

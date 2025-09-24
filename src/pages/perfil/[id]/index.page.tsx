@@ -2,15 +2,20 @@ import { Container } from './style';
 import { BookmarkSimpleIcon, BookOpenIcon, BooksIcon, UserIcon, UserListIcon } from '@phosphor-icons/react';
 import { PerfilCardLivro } from '@/components/PerfilCardLivro';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
+import dayjs from 'dayjs';
 import avatarUsuarioImg from '@/assets/avatar-usuario.png';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { prisma } from '@/lib/prisma';
 
-export default function Perfil() {
-  const session = useSession();
+interface PerfilProps {
+  user: {
+    name: string;
+    avatarUrl: string;
+    createdAt: Date;
+  };
+}
 
-  // const data = (session.data?.user as any).created_at;
-  console.log(session);
-
+export default function Perfil({ user }: PerfilProps) {
   return (
     <Container>
       <div className="titulo-pagina">
@@ -30,9 +35,9 @@ export default function Perfil() {
 
         <div className="container-secundario">
           <div className="container-perfil">
-            <Image width={72} height={72} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
-            <p>{session.data?.user.name}</p>
-            <span>membro desde 2025</span>
+            <Image width={72} height={72} src={user.avatarUrl ?? avatarUsuarioImg} alt="" />
+            <p>{user.name}</p>
+            <span>{dayjs(user.createdAt).format('[ membro desde ]YYYY')}</span>
           </div>
 
           <div className="divisao"></div>
@@ -75,3 +80,36 @@ export default function Perfil() {
     </Container>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = String(params?.id);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      user: {
+        name: user.name,
+        avatarUrl: user.avatar_url,
+        createdAt: user.created_at.toISOString(),
+      },
+    },
+  };
+};

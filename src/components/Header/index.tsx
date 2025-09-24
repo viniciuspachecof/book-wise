@@ -29,7 +29,7 @@ export function Header() {
             <BinocularsIcon size={24} /> Explorar
           </Link>
           {isSignedIn && (
-            <Link href={'/perfil'} className={pathName === '/perfil' ? 'active' : ''}>
+            <Link href={`/perfil/${session.data?.user.id}`} className={pathName.includes('/perfil') ? 'active' : ''}>
               <UserIcon size={24} /> Perfil
             </Link>
           )}

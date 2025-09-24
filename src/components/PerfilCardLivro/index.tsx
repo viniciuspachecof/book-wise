@@ -2,10 +2,14 @@ import Image from 'next/image';
 import { Container, ContainerLivro } from './style';
 import { Rating } from 'react-simple-star-rating';
 import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
+import { useContext } from 'react';
+import { BookWiseContext } from '@/contexts/BookWiseContext';
 
 export function PerfilCardLivro() {
+  const { onDisplayDetails } = useContext(BookWiseContext);
+
   return (
-    <Container>
+    <Container onClick={() => onDisplayDetails(true)}>
       <p className="titulo-postagem">Há 2 dias</p>
       <ContainerLivro>
         <div className="container-livro">
