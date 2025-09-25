@@ -33,11 +33,11 @@ function Login() {
           <span>Faça seu login ou acesse como visistante.</span>
 
           <div className="container-links">
-            <button className="link" onClick={() => signIn('google')}>
+            <button className="link" onClick={() => signIn('google', { callbackUrl: '/' })}>
               <Image src={iconeGoogle} alt="" /> Entrar com Google
             </button>
 
-            <button className="link" onClick={() => signIn('github')}>
+            <button className="link" onClick={() => signIn('github', { callbackUrl: '/' })}>
               <Image src={iconeGithub} alt="" /> Entrar com GitHub
             </button>
 

@@ -8,6 +8,7 @@ import { Container } from '@/styles/page';
 import type { AppProps } from 'next/app';
 
 import { SessionProvider } from 'next-auth/react';
+import { LoginAvaliacao } from '@/components/LoginAvaliacao';
 
 globalStyles();
 
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
           <Component {...pageProps} />
 
+          <LoginAvaliacao />
           <DetalheLivro />
         </Container>
       </BookWiseContextProvider>

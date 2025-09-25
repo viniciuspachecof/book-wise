@@ -7,12 +7,16 @@ import { CardAvaliacaoUsuario } from '../CardAvaliacaoUsuario';
 import { useContext, useEffect, useState } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
 import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
+import { useSession } from 'next-auth/react';
 
 export function DetalheLivro() {
   const { displayDetails, onDisplayDetails } = useContext(BookWiseContext);
+  const { onDisplayAvalation } = useContext(BookWiseContext);
   const { bookSelected } = useContext(BookWiseContext);
   const [displayAvaliation, setDisplayAvaliaton] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const session = useSession();
+  const isSignedIn = session.status === 'authenticated';
 
   // Exibir apenas após montagem no cliente
   useEffect(() => {
@@ -20,6 +24,14 @@ export function DetalheLivro() {
   }, []);
 
   if (!mounted) return null;
+
+  function handleAvaliar() {
+    if (!isSignedIn) {
+      onDisplayAvalation(true);
+    } else {
+      setDisplayAvaliaton(true);
+    }
+  }
 
   return (
     <>
@@ -77,7 +89,7 @@ export function DetalheLivro() {
         <ContainerAvaliacaoUsuario>
           <div className="avaliar">
             <span>Avaliações</span>
-            {!displayAvaliation && <button onClick={() => setDisplayAvaliaton(true)}>Avaliar</button>}
+            {!displayAvaliation && <button onClick={handleAvaliar}>Avaliar</button>}
           </div>
 
           <div className="container-avaliacoes">

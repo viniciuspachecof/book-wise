@@ -45,7 +45,7 @@ export function Header() {
             <span className="nome-login">Fazer Login</span>
           )}
           {isSignedIn ? (
-            <button onClick={() => signOut()}>
+            <button onClick={() => signOut({ callbackUrl: '/' })}>
               <SignOutIcon size={20} />
             </button>
           ) : (

@@ -5,6 +5,8 @@ import { createContext, ReactNode, useState } from 'react';
 interface BookWiseContextType {
   displayDetails: boolean;
   onDisplayDetails: (value: boolean, id: string) => void;
+  displayAvalation: boolean;
+  onDisplayAvalation: (value: boolean) => void;
   bookSelected?: IBook;
 }
 
@@ -16,6 +18,7 @@ interface BookWiseProviderProps {
 
 export function BookWiseContextProvider({ children }: BookWiseProviderProps) {
   const [displayDetails, setDisplayDetails] = useState(false);
+  const [displayAvalation, setDisplayAvalation] = useState(false);
   const [bookSelected, setBookSelected] = useState<IBook>();
 
   async function onDisplayDetails(value: boolean, id: string) {
@@ -28,8 +31,14 @@ export function BookWiseContextProvider({ children }: BookWiseProviderProps) {
     setDisplayDetails(value);
   }
 
+  async function onDisplayAvalation(value: boolean) {
+    setDisplayAvalation(value);
+  }
+
   return (
-    <BookWiseContext.Provider value={{ displayDetails, onDisplayDetails, bookSelected }}>
+    <BookWiseContext.Provider
+      value={{ displayDetails, onDisplayDetails, displayAvalation, onDisplayAvalation, bookSelected }}
+    >
       {children}
     </BookWiseContext.Provider>
   );

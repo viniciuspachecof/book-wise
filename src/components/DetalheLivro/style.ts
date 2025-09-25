@@ -4,14 +4,13 @@ export const Overlay = styled('div', {
   position: 'fixed',
   inset: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
-  zIndex: 999,
+  zIndex: 997,
   transition: 'transform 0.3s ease-in-out',
 
   variants: {
     open: {
       true: {
         transform: 'translateX(0%)',
-        boxShadow: '-5px 0px 18px rgba(0, 0, 0, 0.75)',
       },
       false: {
         transform: 'translateX(100%)',
@@ -32,8 +31,8 @@ export const Container = styled('div', {
   top: 0,
   right: 0,
   transition: 'transform 0.3s ease-in-out',
-  zIndex: 1000,
-  padding: '3rem',
+  zIndex: 998,
+  padding: '4rem 3rem',
   overflow: 'auto',
 
   variants: {
@@ -53,9 +52,10 @@ export const Container = styled('div', {
   },
 
   'div.close': {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '1rem',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    margin: '1.5rem 3rem',
 
     button: {
       backgroundColor: 'transparent',

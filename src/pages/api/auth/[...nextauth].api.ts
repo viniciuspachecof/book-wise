@@ -48,7 +48,18 @@ export function buildNextAuthOptions(
 
     callbacks: {
       async redirect({ url, baseUrl }) {
-        return `${baseUrl}/`;
+        // Se a URL já é do mesmo domínio, retorna direto
+        if (url.startsWith(baseUrl)) {
+          return url;
+        }
+
+        // Se for uma rota relativa (tipo "/explorar"), concatena corretamente
+        if (url.startsWith('/')) {
+          return `${baseUrl}${url}`;
+        }
+
+        // Fallback: sempre volta pra home
+        return baseUrl;
       },
 
       async session({ session, user }) {
