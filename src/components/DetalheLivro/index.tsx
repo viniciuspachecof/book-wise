@@ -1,12 +1,11 @@
 import Image from 'next/image';
 import { Container, ContainerAvaliacaoUsuario, ContainerLivro, Overlay } from './style';
-import imgDetalheLivro from '@/assets/detalhe-livro.svg';
 import { Rating } from 'react-simple-star-rating';
 import { BookmarkSimpleIcon, BookOpenIcon, CheckIcon, XIcon } from '@phosphor-icons/react';
 import { CardAvaliacaoUsuario } from '../CardAvaliacaoUsuario';
 import { useContext, useEffect, useState } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
-import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
+import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 import { useSession } from 'next-auth/react';
 
 export function DetalheLivro() {
@@ -35,8 +34,8 @@ export function DetalheLivro() {
 
   return (
     <>
-      <Overlay open={displayDetails} />
-      <Container open={displayDetails}>
+      <Overlay open={displayDetails} onClick={() => onDisplayDetails(false, '')} />
+      <Container open={displayDetails} onClick={(e) => e.stopPropagation()}>
         <div className="close">
           <button onClick={() => onDisplayDetails(false, '')}>
             <XIcon size={24} />
@@ -72,7 +71,7 @@ export function DetalheLivro() {
               <BookmarkSimpleIcon size={24} />
               <div>
                 <span>Categoria</span>
-                <p>Computação, educação</p>
+                <p>{bookSelected?.categories.map((category) => category.name).join(', ')}</p>
               </div>
             </div>
 
@@ -96,8 +95,8 @@ export function DetalheLivro() {
             {displayAvaliation && (
               <div className="container-avaliacao-usuario">
                 <div>
-                  <Image src={avatarUsuarioImg} alt="" />
-                  <p className="nome-usuario">Vinicius</p>
+                  <Image width={40} height={40} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
+                  <p className="nome-usuario">{session.data?.user.name}</p>
                   <Rating
                     initialValue={1}
                     readonly={false}

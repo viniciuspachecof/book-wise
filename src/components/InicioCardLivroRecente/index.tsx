@@ -17,7 +17,7 @@ export function InicioCardLivroRecente() {
           <Image src={avatarUsuarioImg} alt="" />
         </Link>
         <div style={{ flex: 1 }}>
-          <Link href={'/perfil'} className="nome-usuario">
+          <Link href={'/perfil'} className="nome-usuario" onClick={(e) => e.stopPropagation()}>
             Vinicius
           </Link>
           <br />

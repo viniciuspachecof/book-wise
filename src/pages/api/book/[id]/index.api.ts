@@ -12,13 +12,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     where: {
       id,
     },
+    select: {
+      id: true,
+      name: true,
+      author: true,
+      cover_url: true,
+      total_pages: true,
+      categories: {
+        select: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!book) {
     return res.status(400).json({ message: 'Livro não existe.' });
   }
 
-  return res.json({
+  const bookFormat = {
     ...book,
+    categories: book.categories.map((c) => c.category),
+  };
+
+  return res.json({
+    ...bookFormat,
   });
 }

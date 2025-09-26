@@ -180,6 +180,10 @@ export const ContainerAvaliacaoUsuario = styled('div', {
         gap: '1rem',
         marginBottom: '1.5rem',
 
+        img: {
+          borderRadius: '100%',
+        },
+
         span: {
           marginLeft: 'auto',
         },
