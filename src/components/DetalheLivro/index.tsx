@@ -7,6 +7,17 @@ import { useContext, useEffect, useState } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
 import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 import { useSession } from 'next-auth/react';
+import { Controller, useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { api } from '@/lib/axios';
+
+const avaliationForm = z.object({
+  description: z.string().min(1, 'Escreva sua avaliação'),
+  rate: z.int().min(1, 'Dê pelo menos 1 estrela'),
+});
+
+type AvaliationForm = z.infer<typeof avaliationForm>;
 
 export function DetalheLivro() {
   const { displayDetails, onDisplayDetails } = useContext(BookWiseContext);
@@ -16,6 +27,13 @@ export function DetalheLivro() {
   const [mounted, setMounted] = useState(false);
   const session = useSession();
   const isSignedIn = session.status === 'authenticated';
+
+  const { control, register, handleSubmit } = useForm<AvaliationForm>({
+    resolver: zodResolver(avaliationForm),
+    defaultValues: {
+      rate: 1,
+    },
+  });
 
   // Exibir apenas após montagem no cliente
   useEffect(() => {
@@ -30,6 +48,19 @@ export function DetalheLivro() {
     } else {
       setDisplayAvaliaton(true);
     }
+  }
+
+  async function handleAvaliation(data: AvaliationForm) {
+    const { description, rate } = data;
+    const userId = session.data?.user.id;
+    const bookId = bookSelected?.id;
+
+    await api.post('/avaliation', {
+      description,
+      rate,
+      userId,
+      bookId,
+    });
   }
 
   return (
@@ -94,31 +125,44 @@ export function DetalheLivro() {
           <div className="container-avaliacoes">
             {displayAvaliation && (
               <div className="container-avaliacao-usuario">
-                <div>
-                  <Image width={40} height={40} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
-                  <p className="nome-usuario">{session.data?.user.name}</p>
-                  <Rating
-                    initialValue={1}
-                    readonly={false}
-                    fillColor="#a78bfa"
-                    emptyColor="transparent"
-                    SVGstrokeColor="#a78bfa"
-                    SVGstorkeWidth={2}
-                    size={22}
-                  />
-                </div>
-                <div className="container-textarea">
-                  <textarea name="avaliacao" id="avaliacao" placeholder="Escreva sua avaliação"></textarea>
-                </div>
+                <form onSubmit={handleSubmit(handleAvaliation)}>
+                  <div>
+                    <Image width={40} height={40} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
+                    <p className="nome-usuario">{session.data?.user.name}</p>
+                    <Controller
+                      name="rate"
+                      control={control}
+                      render={({ field }) => (
+                        <Rating
+                          readonly={false}
+                          fillColor="#a78bfa"
+                          emptyColor="transparent"
+                          SVGstrokeColor="#a78bfa"
+                          SVGstorkeWidth={2}
+                          size={22}
+                          onClick={field.onChange}
+                          initialValue={field.value}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="container-textarea">
+                    <textarea
+                      id="description"
+                      placeholder="Escreva sua avaliação"
+                      {...register('description')}
+                    ></textarea>
+                  </div>
 
-                <div>
-                  <button onClick={() => setDisplayAvaliaton(false)}>
-                    <XIcon size={24} color="#8381D9" />
-                  </button>
-                  <button>
-                    <CheckIcon size={24} color="#50B2C0" />
-                  </button>
-                </div>
+                  <div>
+                    <button type="button" onClick={() => setDisplayAvaliaton(false)}>
+                      <XIcon size={24} color="#8381D9" />
+                    </button>
+                    <button type="submit">
+                      <CheckIcon size={24} color="#50B2C0" />
+                    </button>
+                  </div>
+                </form>
               </div>
             )}
 
