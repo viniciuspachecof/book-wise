@@ -21,14 +21,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   }
 
-  await prisma.rating.create({
+  const rating = await prisma.rating.create({
     data: {
       description,
       rate,
       book_id: bookId,
       user_id: userId,
     },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar_url: true,
+        },
+      },
+    },
   });
 
-  return res.status(201).end();
+  return res.status(201).json(rating);
 }

@@ -5,8 +5,8 @@ import { createContext, ReactNode, useState } from 'react';
 interface BookWiseContextType {
   displayDetails: boolean;
   onDisplayDetails: (value: boolean, id: string) => void;
-  displayAvalation: boolean;
-  onDisplayAvalation: (value: boolean) => void;
+  displayRating: boolean;
+  onDisplayRating: (value: boolean) => void;
   bookSelected?: IBook;
 }
 
@@ -18,26 +18,26 @@ interface BookWiseProviderProps {
 
 export function BookWiseContextProvider({ children }: BookWiseProviderProps) {
   const [displayDetails, setDisplayDetails] = useState(false);
-  const [displayAvalation, setDisplayAvalation] = useState(false);
+  const [displayRating, setDisplayRating] = useState(false);
   const [bookSelected, setBookSelected] = useState<IBook>();
 
   async function onDisplayDetails(value: boolean, id: string) {
     if (value) {
-      const response = await api.get(`/book/${id}`);
+      const responseBook = await api.get(`/book/${id}`);
 
-      setBookSelected(response.data);
+      setBookSelected(responseBook.data);
     }
 
     setDisplayDetails(value);
   }
 
-  async function onDisplayAvalation(value: boolean) {
-    setDisplayAvalation(value);
+  async function onDisplayRating(value: boolean) {
+    setDisplayRating(value);
   }
 
   return (
     <BookWiseContext.Provider
-      value={{ displayDetails, onDisplayDetails, displayAvalation, onDisplayAvalation, bookSelected }}
+      value={{ displayDetails, onDisplayDetails, displayRating, onDisplayRating, bookSelected }}
     >
       {children}
     </BookWiseContext.Provider>

@@ -8,15 +8,15 @@ import { BookWiseContext } from '@/contexts/BookWiseContext';
 import { XIcon } from '@phosphor-icons/react';
 
 export function LoginAvaliacao() {
-  const { displayAvalation, onDisplayAvalation } = useContext(BookWiseContext);
+  const { displayRating, onDisplayRating } = useContext(BookWiseContext);
 
   return (
     <>
-      <Overlay open={displayAvalation} />
-      <Container open={displayAvalation}>
+      <Overlay open={displayRating} />
+      <Container open={displayRating}>
         <div className="container-avaliacao">
           <div className="close">
-            <button onClick={() => onDisplayAvalation(false)}>
+            <button onClick={() => onDisplayRating(false)}>
               <XIcon size={24} />
             </button>
           </div>

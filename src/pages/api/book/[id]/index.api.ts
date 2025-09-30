@@ -28,6 +28,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
         },
       },
+      ratings: {
+        select: {
+          id: true,
+          rate: true,
+          description: true,
+          created_at: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar_url: true,
+            },
+          },
+        },
+      },
     },
   });
 

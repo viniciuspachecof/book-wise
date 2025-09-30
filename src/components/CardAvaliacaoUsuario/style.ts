@@ -12,6 +12,10 @@ export const Container = styled('div', {
     gap: '1rem',
 
     '.avatar': {
+      img: {
+        borderRadius: '100%',
+      },
+
       '&:hover ~ div .nome-usuario': {
         textDecoration: 'underline',
       },

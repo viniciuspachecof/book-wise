@@ -11,29 +11,38 @@ import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '@/lib/axios';
+import { IRating } from '@/interface/IRating';
 
-const avaliationForm = z.object({
+const ratingForm = z.object({
   description: z.string().min(1, 'Escreva sua avaliação'),
   rate: z.int().min(1, 'Dê pelo menos 1 estrela'),
 });
 
-type AvaliationForm = z.infer<typeof avaliationForm>;
+type RatingForm = z.infer<typeof ratingForm>;
 
 export function DetalheLivro() {
   const { displayDetails, onDisplayDetails } = useContext(BookWiseContext);
-  const { onDisplayAvalation } = useContext(BookWiseContext);
+  const { onDisplayRating } = useContext(BookWiseContext);
   const { bookSelected } = useContext(BookWiseContext);
-  const [displayAvaliation, setDisplayAvaliaton] = useState(false);
+  const [displayRating, setDisplayAvaliaton] = useState(false);
   const [mounted, setMounted] = useState(false);
   const session = useSession();
   const isSignedIn = session.status === 'authenticated';
 
-  const { control, register, handleSubmit } = useForm<AvaliationForm>({
-    resolver: zodResolver(avaliationForm),
+  const [ratings, setRatings] = useState<IRating[]>(bookSelected?.ratings ?? []);
+
+  const { control, register, handleSubmit, reset } = useForm<RatingForm>({
+    resolver: zodResolver(ratingForm),
     defaultValues: {
       rate: 1,
     },
   });
+
+  useEffect(() => {
+    if (bookSelected?.ratings) {
+      setRatings(bookSelected.ratings);
+    }
+  }, [bookSelected]);
 
   // Exibir apenas após montagem no cliente
   useEffect(() => {
@@ -44,23 +53,29 @@ export function DetalheLivro() {
 
   function handleAvaliar() {
     if (!isSignedIn) {
-      onDisplayAvalation(true);
+      onDisplayRating(true);
     } else {
       setDisplayAvaliaton(true);
     }
   }
 
-  async function handleAvaliation(data: AvaliationForm) {
+  async function handleRating(data: RatingForm) {
     const { description, rate } = data;
     const userId = session.data?.user.id;
     const bookId = bookSelected?.id;
 
-    await api.post('/avaliation', {
+    const response = await api.post('/rating', {
       description,
       rate,
       userId,
       bookId,
     });
+
+    setRatings((state) => [...state, { ...response.data }]);
+
+    setDisplayAvaliaton(false);
+
+    reset();
   }
 
   return (
@@ -119,13 +134,13 @@ export function DetalheLivro() {
         <ContainerAvaliacaoUsuario>
           <div className="avaliar">
             <span>Avaliações</span>
-            {!displayAvaliation && <button onClick={handleAvaliar}>Avaliar</button>}
+            {!displayRating && <button onClick={handleAvaliar}>Avaliar</button>}
           </div>
 
           <div className="container-avaliacoes">
-            {displayAvaliation && (
+            {displayRating && (
               <div className="container-avaliacao-usuario">
-                <form onSubmit={handleSubmit(handleAvaliation)}>
+                <form onSubmit={handleSubmit(handleRating)}>
                   <div>
                     <Image width={40} height={40} src={session.data?.user.avatar_url ?? avatarUsuarioImg} alt="" />
                     <p className="nome-usuario">{session.data?.user.name}</p>
@@ -166,7 +181,9 @@ export function DetalheLivro() {
               </div>
             )}
 
-            <CardAvaliacaoUsuario />
+            {ratings.map((rating) => (
+              <CardAvaliacaoUsuario key={rating.id} {...rating} />
+            ))}
           </div>
         </ContainerAvaliacaoUsuario>
       </Container>

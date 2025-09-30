@@ -1,25 +1,30 @@
 import Image from 'next/image';
-import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
 import Link from 'next/link';
+import { IRating } from '@/interface/IRating';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
-export function CardAvaliacaoUsuario() {
+export function CardAvaliacaoUsuario({ description, created_at, rate, user }: IRating) {
+  const distanceToNow = dayjs(created_at).fromNow();
+
   return (
     <Container>
       <div className="container-avaliacao">
         <Link href={'/perfil'} className="avatar">
-          <Image src={avatarUsuarioImg} alt="" />
+          <Image width={40} height={40} src={user.avatar_url} alt="" />
         </Link>
         <div style={{ flex: 1 }}>
           <Link href={'/perfil'} className="nome-usuario" onClick={(e) => e.stopPropagation()}>
-            Vinicius
+            {user.name}
           </Link>
           <br />
-          <span className="data-usuario">Hoje</span>
+          <span className="data-usuario">{distanceToNow}</span>
         </div>
         <Rating
-          initialValue={1}
+          initialValue={rate}
           readonly={true}
           fillColor="#a78bfa"
           emptyColor="transparent"
@@ -29,11 +34,7 @@ export function CardAvaliacaoUsuario() {
         />
       </div>
 
-      <p className="descricao-livro">
-        Semper et sapien proin vitae nisi. Feugiat neque integer donec et aenean posuere amet ultrices. Cras fermentum
-        id pulvinar varius leo a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed vulputate massa
-        velit nibh
-      </p>
+      <p className="descricao-livro">{description}</p>
     </Container>
   );
 }
