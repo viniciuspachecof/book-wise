@@ -40,7 +40,11 @@ export function DetalheLivro() {
 
   useEffect(() => {
     if (bookSelected?.ratings) {
-      setRatings(bookSelected.ratings);
+      const orderRate = [...bookSelected.ratings].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+
+      setRatings(orderRate);
     }
   }, [bookSelected]);
 
@@ -71,7 +75,7 @@ export function DetalheLivro() {
       bookId,
     });
 
-    setRatings((state) => [...state, { ...response.data }]);
+    setRatings((state) => [response.data, ...state]);
 
     setDisplayAvaliaton(false);
 
@@ -99,7 +103,7 @@ export function DetalheLivro() {
 
               <div>
                 <Rating
-                  initialValue={1}
+                  initialValue={bookSelected?.mediaRate}
                   readonly={true}
                   fillColor="#a78bfa"
                   emptyColor="transparent"

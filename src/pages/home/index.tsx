@@ -4,8 +4,15 @@ import { InicioCardLivroPopular } from '@/components/InicioCardLivroPopular';
 import { InicioCardLivroUltima } from '@/components/InicioCardLivroUltima';
 import { ChartLineUpIcon } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
+import { IRating } from '@/interface/IRating';
+import { GetStaticProps } from 'next';
+import { prisma } from '@/lib/prisma';
 
-export default function Home() {
+interface HomeProps {
+  ratings: IRating[];
+}
+
+export default function Home({ ratings }: HomeProps) {
   const session = useSession();
   const isSignedIn = session.status === 'authenticated';
 
@@ -28,7 +35,7 @@ export default function Home() {
 
           <p className="titulo-container">Avaliações mais recentes</p>
           <div className="container-avaliacoes-recentes">
-            <InicioCardLivroRecente />
+            {ratings && ratings.map((rating) => <InicioCardLivroRecente key={rating.id} />)}
           </div>
         </div>
 
@@ -42,3 +49,43 @@ export default function Home() {
     </Container>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const ratings = await prisma.rating.findMany({
+    select: {
+      id: true,
+      rate: true,
+      description: true,
+      created_at: true,
+      book: {
+        select: {
+          id: true,
+          name: true,
+          cover_url: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar_url: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+    take: 3,
+  });
+
+  const formatRatings = ratings.map((rating) => ({
+    ...rating,
+    created_at: rating.created_at.toISOString(),
+  }));
+
+  return {
+    props: {
+      ratings: formatRatings,
+    },
+  };
+};

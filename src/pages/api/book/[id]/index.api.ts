@@ -52,6 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const bookFormat = {
     ...book,
+    mediaRate: book.ratings.reduce((acc, rating) => acc + rating.rate, 0) / book.ratings.length,
     categories: book.categories.map((c) => c.category),
   };
 

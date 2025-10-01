@@ -19,4 +19,5 @@ export interface IBook {
       avatar_url: string;
     };
   }[];
+  mediaRate: number;
 }

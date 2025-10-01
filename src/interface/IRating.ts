@@ -3,6 +3,11 @@ export interface IRating {
   rate: number;
   description: string;
   created_at: Date;
+  book: {
+    id: string;
+    name: string;
+    cover_url: string;
+  };
   user: {
     id: string;
     name: string;

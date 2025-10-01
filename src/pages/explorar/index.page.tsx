@@ -112,6 +112,12 @@ export const getStaticProps: GetStaticProps = async () => {
           },
         },
       },
+      ratings: {
+        select: {
+          id: true,
+          rate: true,
+        },
+      },
     },
   });
 
@@ -119,6 +125,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const listBooksFormat = books.map((book) => ({
     ...book,
+    mediaRate: book.ratings.reduce((acc, rating) => acc + rating.rate, 0) / book.ratings.length,
     categories: book.categories.map((c) => c.category),
   }));
 

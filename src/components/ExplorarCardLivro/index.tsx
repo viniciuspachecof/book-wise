@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
 import { IBook } from '@/interface/IBook';
 
-export function ExplorarCardLivro({ id, name, author, cover_url }: IBook) {
+export function ExplorarCardLivro({ id, name, author, cover_url, mediaRate }: IBook) {
   const { onDisplayDetails } = useContext(BookWiseContext);
 
   return (
@@ -19,7 +19,7 @@ export function ExplorarCardLivro({ id, name, author, cover_url }: IBook) {
           </div>
 
           <Rating
-            initialValue={1}
+            initialValue={mediaRate}
             readonly={true}
             fillColor="#a78bfa"
             emptyColor="transparent"
