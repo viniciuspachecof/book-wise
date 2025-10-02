@@ -2,12 +2,12 @@ import Image from 'next/image';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
 import Link from 'next/link';
-import { IRating } from '@/interface/IRating';
+import { IRatingUser } from '@/interface/IRatingUser';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-export function CardAvaliacaoUsuario({ description, created_at, rate, user }: IRating) {
+export function CardAvaliacaoUsuario({ description, created_at, rate, user }: IRatingUser) {
   const distanceToNow = dayjs(created_at).fromNow();
 
   return (

@@ -4,19 +4,24 @@ import { Rating } from 'react-simple-star-rating';
 import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 import { useContext } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
+import { IRating } from '@/interface/IRating';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
-export function InicioCardLivroUltima() {
+export function InicioCardLivroUltima({ created_at, rate, book }: IRating) {
   const { onDisplayDetails } = useContext(BookWiseContext);
+  const distanceToNow = dayjs(created_at).fromNow();
 
   return (
-    <Container onClick={() => onDisplayDetails(true)}>
+    <Container onClick={() => onDisplayDetails(true, book.id)}>
       <div className="container-livro">
-        <Image src={imgLivroRecente} alt="" />
+        <Image width={108} height={152} src={book.cover_url} alt="" />
         <div>
           <div className="container-avaliacao">
-            <span className="data-pub">Há 2 dias</span>
+            <span className="data-pub">{distanceToNow}</span>
             <Rating
-              initialValue={1}
+              initialValue={rate}
               readonly={true}
               fillColor="#a78bfa"
               emptyColor="transparent"
@@ -26,14 +31,10 @@ export function InicioCardLivroUltima() {
             />
           </div>
 
-          <p className="titulo-livro">O Hobbit</p>
-          <span className="autor-livro">Fulano</span>
+          <p className="titulo-livro">{book.name}</p>
+          <span className="autor-livro">{book.author}</span>
 
-          <p className="descricao-livro">
-            Semper et sapien proin vitae nisi. Feugiat neque integer donec et aenean posuere amet ultrices. Cras
-            fermentum id pulvinar varius leo a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed
-            vulputate massa velit nibh
-          </p>
+          <p className="descricao-livro">{book.summary}</p>
         </div>
       </div>
     </Container>

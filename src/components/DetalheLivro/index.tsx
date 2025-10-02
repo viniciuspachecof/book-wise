@@ -11,7 +11,7 @@ import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '@/lib/axios';
-import { IRating } from '@/interface/IRating';
+import { IRatingUser } from '@/interface/IRatingUser';
 
 const ratingForm = z.object({
   description: z.string().min(1, 'Escreva sua avaliação'),
@@ -29,7 +29,7 @@ export function DetalheLivro() {
   const session = useSession();
   const isSignedIn = session.status === 'authenticated';
 
-  const [ratings, setRatings] = useState<IRating[]>(bookSelected?.ratings ?? []);
+  const [ratings, setRatings] = useState<IRatingUser[]>(bookSelected?.ratings ?? []);
 
   const { control, register, handleSubmit, reset } = useForm<RatingForm>({
     resolver: zodResolver(ratingForm),
