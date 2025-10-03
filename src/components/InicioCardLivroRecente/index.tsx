@@ -1,8 +1,6 @@
 import Image from 'next/image';
-import avatarUsuarioImg from '@/assets/avatar-usuario-avaliacao.svg';
 import { Container } from './style';
 import { Rating } from 'react-simple-star-rating';
-import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';

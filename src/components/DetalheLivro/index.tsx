@@ -94,7 +94,7 @@ export function DetalheLivro() {
 
         <ContainerLivro>
           <div className="container-livro">
-            <Image width={172} height={242} src={bookSelected?.cover_url ?? ''} alt="" />
+            {bookSelected?.cover_url && <Image width={172} height={242} src={bookSelected.cover_url} alt="" />}
             <div className="container-livro-info">
               <div>
                 <p className="titulo-livro">{bookSelected?.name}</p>
@@ -111,7 +111,9 @@ export function DetalheLivro() {
                   SVGstorkeWidth={2}
                   size={20}
                 />
-                <p className="qtd-avaliacao">3 avaliações</p>
+                <p className="qtd-avaliacao">{`${bookSelected?.ratings.length} ${
+                  bookSelected?.ratings.length === 1 ? 'avaliação' : 'avaliações'
+                }`}</p>
               </div>
             </div>
           </div>

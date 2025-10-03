@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { prisma } from '@/lib/prisma';
+import { IRating } from '@/interface/IRating';
 
 interface PerfilProps {
   user: {
@@ -13,9 +14,10 @@ interface PerfilProps {
     avatarUrl: string;
     createdAt: Date;
   };
+  ratings: IRating[];
 }
 
-export default function Perfil({ user }: PerfilProps) {
+export default function Perfil({ user, ratings }: PerfilProps) {
   return (
     <Container>
       <div className="titulo-pagina">
@@ -27,9 +29,7 @@ export default function Perfil({ user }: PerfilProps) {
           <input name="buscar-livro" type="text" placeholder="Buscar livro avaliado" />
 
           <div className="container-avaliacoes">
-            <PerfilCardLivro />
-            <PerfilCardLivro />
-            <PerfilCardLivro />
+            {ratings.length && ratings.map((rating) => <PerfilCardLivro key={rating.id} {...rating} />)}
           </div>
         </div>
 
@@ -103,6 +103,34 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
+  const ratingsUser = await prisma.rating.findMany({
+    where: {
+      user_id: id,
+    },
+    select: {
+      id: true,
+      rate: true,
+      created_at: true,
+      book: {
+        select: {
+          id: true,
+          name: true,
+          cover_url: true,
+          summary: true,
+          author: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+  });
+
+  const ratingsUserFormat = ratingsUser.map((rating) => ({
+    ...rating,
+    created_at: rating.created_at.toISOString(),
+  }));
+
   return {
     props: {
       user: {
@@ -110,6 +138,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         avatarUrl: user.avatar_url,
         createdAt: user.created_at.toISOString(),
       },
+      ratings: ratingsUserFormat,
     },
   };
 };

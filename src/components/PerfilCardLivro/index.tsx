@@ -1,27 +1,31 @@
 import Image from 'next/image';
 import { Container, ContainerLivro } from './style';
 import { Rating } from 'react-simple-star-rating';
-import imgLivroRecente from '@/assets/inicio-livro-recente.svg';
 import { useContext } from 'react';
 import { BookWiseContext } from '@/contexts/BookWiseContext';
+import { IRating } from '@/interface/IRating';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
-export function PerfilCardLivro() {
+export function PerfilCardLivro({ rate, created_at, book }: IRating) {
   const { onDisplayDetails } = useContext(BookWiseContext);
+  const distanceToNow = dayjs(created_at).fromNow();
 
   return (
-    <Container onClick={() => onDisplayDetails(true)}>
-      <p className="titulo-postagem">Há 2 dias</p>
+    <Container onClick={() => onDisplayDetails(true, book.id)}>
+      <p className="titulo-postagem">{distanceToNow}</p>
       <ContainerLivro>
         <div className="container-livro">
-          <Image src={imgLivroRecente} alt="" />
+          <Image width={108} height={152} src={book.cover_url} alt="" />
           <div className="container-livro-info">
             <div>
-              <p className="titulo-livro">A revolução dos bichos</p>
-              <span className="autor-livro">George Orwell</span>
+              <p className="titulo-livro">{book.name}</p>
+              <span className="autor-livro">{book.author}</span>
             </div>
 
             <Rating
-              initialValue={1}
+              initialValue={rate}
               readonly={true}
               fillColor="#a78bfa"
               emptyColor="transparent"

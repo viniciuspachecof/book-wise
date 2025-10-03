@@ -9,12 +9,14 @@ import { GetStaticProps } from 'next';
 import { prisma } from '@/lib/prisma';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/axios';
+import { IBook } from '@/interface/IBook';
 
 interface HomeProps {
   ratings: IRating[];
+  books: IBook[];
 }
 
-export default function Home({ ratings }: HomeProps) {
+export default function Home({ ratings, books }: HomeProps) {
   const session = useSession();
   const isSignedIn = session.status === 'authenticated';
   const [recentRatingUser, setRecentRatingUser] = useState<IRating>();
@@ -22,9 +24,9 @@ export default function Home({ ratings }: HomeProps) {
   useEffect(() => {
     if (isSignedIn) {
       async function fetchData() {
-        const teste = await api.get(`/rating/user-rating`);
+        const response = await api.get(`/rating/user-rating`);
 
-        setRecentRatingUser(teste.data);
+        setRecentRatingUser(response.data);
       }
 
       fetchData();
@@ -57,7 +59,7 @@ export default function Home({ ratings }: HomeProps) {
         <div className="container-secundario">
           <p className="titulo-container">Livros populares</p>
           <div className="container-popular">
-            <InicioCardLivroPopular />
+            {books && books.map((book) => <InicioCardLivroPopular key={book.id} {...book} />)}
           </div>
         </div>
       </div>
@@ -94,14 +96,39 @@ export const getStaticProps: GetStaticProps = async () => {
     take: 3,
   });
 
-  const formatRatings = ratings.map((rating) => ({
+  const ratingsFormat = ratings.map((rating) => ({
     ...rating,
     created_at: rating.created_at.toISOString(),
   }));
 
+  const books = await prisma.book.findMany({
+    select: {
+      id: true,
+      name: true,
+      author: true,
+      cover_url: true,
+      ratings: {
+        select: {
+          id: true,
+          rate: true,
+        },
+      },
+    },
+  });
+
+  const listBooksFormat = books.map((book) => ({
+    ...book,
+    mediaRate: book.ratings.length
+      ? book.ratings.reduce((acc, rating) => acc + rating.rate, 0) / book.ratings.length
+      : 0,
+  }));
+
+  const orderBooks = listBooksFormat.sort((a, b) => b.mediaRate - a.mediaRate).slice(0, 4);
+
   return {
     props: {
-      ratings: formatRatings,
+      ratings: ratingsFormat,
+      books: orderBooks,
     },
   };
 };
