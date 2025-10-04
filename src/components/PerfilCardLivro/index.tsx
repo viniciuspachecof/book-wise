@@ -35,11 +35,7 @@ export function PerfilCardLivro({ rate, created_at, book }: IRating) {
             />
           </div>
         </div>
-        <div className="descricao-livro">
-          Tristique massa sed enim lacinia odio. Congue ut faucibus nunc vitae non. Nam feugiat vel morbi viverra vitae
-          mi. Vitae fringilla ut et suspendisse enim suspendisse vitae. Leo non eget lacus sollicitudin tristique
-          pretium quam. Mollis et luctus amet sed convallis varius massa sagittis. Proin sed proin at leo quis ac sem.
-        </div>
+        <div className="descricao-livro">{book.summary}</div>
       </ContainerLivro>
     </Container>
   );

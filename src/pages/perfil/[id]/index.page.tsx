@@ -7,6 +7,7 @@ import avatarUsuarioImg from '@/assets/avatar-usuario.png';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { prisma } from '@/lib/prisma';
 import { IRating } from '@/interface/IRating';
+import { ICategory } from '@/interface/ICategory';
 
 interface PerfilProps {
   user: {
@@ -18,6 +19,23 @@ interface PerfilProps {
 }
 
 export default function Perfil({ user, ratings }: PerfilProps) {
+  const totalPagesRead = ratings.reduce((acc, rating) => acc + rating.book.total_pages, 0);
+  const countBookRates = ratings.length;
+  const countAuthorRead = [...new Map(ratings.map((rating) => [rating.book.author, rating])).values()].length;
+
+  // Buscar a categoria mais lida
+  const arrayTemp: ICategory[] = [];
+  ratings.map((rating) => rating.book.categories.map((category) => arrayTemp.push(category)));
+
+  const contagem: Record<string, number> = {};
+  for (const item of arrayTemp) {
+    contagem[item.name] = (contagem[item.name] || 0) + 1;
+  }
+
+  const [maisRepetido] = Object.entries(contagem).reduce((max, atual) =>
+    Number(atual[1]) > Number(max[1]) ? atual : max
+  );
+
   return (
     <Container>
       <div className="titulo-pagina">
@@ -46,7 +64,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
             <div className="container-info">
               <BookOpenIcon size={32} />
               <div>
-                <p>3853</p>
+                <p>{totalPagesRead}</p>
                 <span>Páginas lidas</span>
               </div>
             </div>
@@ -54,7 +72,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
             <div className="container-info">
               <BooksIcon size={32} />
               <div>
-                <p>10</p>
+                <p>{countBookRates}</p>
                 <span>Livros avaliados</span>
               </div>
             </div>
@@ -62,7 +80,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
             <div className="container-info">
               <UserListIcon size={32} />
               <div>
-                <p>8</p>
+                <p>{countAuthorRead}</p>
                 <span>Autores lidos</span>
               </div>
             </div>
@@ -70,7 +88,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
             <div className="container-info">
               <BookmarkSimpleIcon size={32} />
               <div>
-                <p>Computação</p>
+                <p>{maisRepetido}</p>
                 <span>Categoria mais lida</span>
               </div>
             </div>
@@ -118,6 +136,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           cover_url: true,
           summary: true,
           author: true,
+          total_pages: true,
+          categories: {
+            select: {
+              category: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -126,10 +155,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   });
 
-  const ratingsUserFormat = ratingsUser.map((rating) => ({
-    ...rating,
-    created_at: rating.created_at.toISOString(),
-  }));
+  const ratingsUserFormat = ratingsUser.map((rating) => {
+    const book = rating.book;
+    const bookFormat = {
+      ...book,
+      categories: book.categories.map((c) => c.category),
+    };
+
+    return {
+      ...rating,
+      book: bookFormat,
+      created_at: rating.created_at.toISOString(),
+    };
+  });
 
   return {
     props: {
