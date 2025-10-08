@@ -13,11 +13,11 @@ export function CardAvaliacaoUsuario({ description, created_at, rate, user }: IR
   return (
     <Container>
       <div className="container-avaliacao">
-        <Link href={'/perfil'} className="avatar">
+        <Link href={`/perfil/${user.id}`} className="avatar">
           <Image width={40} height={40} src={user.avatar_url} alt="" />
         </Link>
         <div style={{ flex: 1 }}>
-          <Link href={'/perfil'} className="nome-usuario" onClick={(e) => e.stopPropagation()}>
+          <Link href={`/perfil/${user.id}`} className="nome-usuario" onClick={(e) => e.stopPropagation()}>
             {user.name}
           </Link>
           <br />

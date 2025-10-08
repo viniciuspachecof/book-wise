@@ -73,7 +73,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
               <BooksIcon size={32} />
               <div>
                 <p>{countBookRates}</p>
-                <span>Livros avaliados</span>
+                <span>{`${countBookRates === 1 ? 'Livro avaliado' : 'Livros avaliados'}`}</span>
               </div>
             </div>
 
@@ -81,7 +81,7 @@ export default function Perfil({ user, ratings }: PerfilProps) {
               <UserListIcon size={32} />
               <div>
                 <p>{countAuthorRead}</p>
-                <span>Autores lidos</span>
+                <span>{`${countAuthorRead === 1 ? 'Autor lido' : 'Autores lidos'}`}</span>
               </div>
             </div>
 
