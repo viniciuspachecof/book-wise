@@ -8,6 +8,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { prisma } from '@/lib/prisma';
 import { IRating } from '@/interface/IRating';
 import { ICategory } from '@/interface/ICategory';
+import { useEffect, useState } from 'react';
 
 interface PerfilProps {
   user: {
@@ -19,6 +20,7 @@ interface PerfilProps {
 }
 
 export default function Perfil({ user, ratings }: PerfilProps) {
+  const [listRatings, setListRatings] = useState<IRating[]>(ratings);
   const totalPagesRead = ratings.reduce((acc, rating) => acc + rating.book.total_pages, 0);
   const countBookRates = ratings.length;
   const countAuthorRead = [...new Map(ratings.map((rating) => [rating.book.author, rating])).values()].length;
@@ -32,9 +34,38 @@ export default function Perfil({ user, ratings }: PerfilProps) {
     contagem[item.name] = (contagem[item.name] || 0) + 1;
   }
 
-  const [maisRepetido] = Object.entries(contagem).reduce((max, atual) =>
-    Number(atual[1]) > Number(max[1]) ? atual : max
-  );
+  let maisRepetido;
+
+  if (Object.entries(contagem).length) {
+    [maisRepetido] = Object.entries(contagem).reduce((max, atual) => (Number(atual[1]) > Number(max[1]) ? atual : max));
+  }
+
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    buscarPost(debouncedSearch);
+  }, [debouncedSearch]);
+
+  function buscarPost(query: string) {
+    if (!query) {
+      setListRatings(ratings);
+    } else {
+      const filterListBooks = ratings.filter((rating) => rating.book.name.toLowerCase().includes(query));
+
+      setListRatings(filterListBooks);
+    }
+  }
 
   return (
     <Container>
@@ -44,10 +75,19 @@ export default function Perfil({ user, ratings }: PerfilProps) {
 
       <div className="container-principal">
         <div className="container-primario">
-          <input name="buscar-livro" type="text" placeholder="Buscar livro avaliado" />
+          <input
+            name="buscar-livro"
+            type="text"
+            placeholder="Buscar livro avaliado"
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
           <div className="container-avaliacoes">
-            {ratings.length && ratings.map((rating) => <PerfilCardLivro key={rating.id} {...rating} />)}
+            {listRatings.length ? (
+              listRatings.map((rating) => <PerfilCardLivro key={rating.id} {...rating} />)
+            ) : (
+              <p>Faça sua primeira avaliação</p>
+            )}
           </div>
         </div>
 
@@ -85,13 +125,15 @@ export default function Perfil({ user, ratings }: PerfilProps) {
               </div>
             </div>
 
-            <div className="container-info">
-              <BookmarkSimpleIcon size={32} />
-              <div>
-                <p>{maisRepetido}</p>
-                <span>Categoria mais lida</span>
+            {maisRepetido && (
+              <div className="container-info">
+                <BookmarkSimpleIcon size={32} />
+                <div>
+                  <p>{maisRepetido}</p>
+                  <span>Categoria mais lida</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -129,6 +171,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       id: true,
       rate: true,
       created_at: true,
+      description: true,
       book: {
         select: {
           id: true,

@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-export function PerfilCardLivro({ rate, created_at, book }: IRating) {
+export function PerfilCardLivro({ rate, description, created_at, book }: IRating) {
   const { onDisplayDetails } = useContext(BookWiseContext);
   const distanceToNow = dayjs(created_at).fromNow();
 

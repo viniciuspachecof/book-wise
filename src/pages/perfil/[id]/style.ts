@@ -2,6 +2,7 @@ import { styled } from '@stitches/react';
 
 export const Container = styled('div', {
   margin: '4.5rem 6rem 0',
+  width: '100%',
 
   '.titulo-pagina': {
     display: 'flex',
@@ -25,6 +26,7 @@ export const Container = styled('div', {
     gap: '4rem',
 
     '.container-primario': {
+      width: '100%',
       input: {
         marginBottom: '2rem',
         width: '100%',
